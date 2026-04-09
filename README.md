@@ -12,11 +12,21 @@ The system retrieves the most relevant motion sequence given a text query (and v
 ---
 
 ## Features
-- Multi-modal embedding learning for text and motion
-- Support for both BERT-LSTM and CLIP text encoders
-- Hierarchical multi-stream modeling of human body parts
-- Visualization tools for retrieved motions
-- End-to-end pipeline: training, inference, and visualization
+-Hierarchical Multi-Stream Design
+-Separates motion into upper-body, lower-body, and torso streams for fine-grained modeling.
+-Torso-Centric Interaction Modeling
+-Explicitly models torso as the central component, guiding and coordinating other body parts.
+-Cross-Part Motion Dependencies
+-Captures interactions between body parts instead of treating them independently.
+-Torso Attention Mechanism
+-Enhances learning of fine-grained and complex motion relationships.
+-Handles Complex Text Descriptions
+-Supports multi-action, sequential, and compositional sentences.
+-Improved Retrieval Performance
+-Achieves accurate and semantically aligned motion retrieval.
+-Strong Benchmark Results
+-Validated on KIT Motion-Language Dataset and HumanML3D, outperforming prior methods.
+-Designed for large-scale and real-world applications with computational efficiency.
 
 ---
 
