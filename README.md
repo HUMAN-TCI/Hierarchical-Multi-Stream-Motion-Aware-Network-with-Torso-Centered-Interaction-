@@ -50,13 +50,33 @@ pip install -r requirements.txt
 
 ## Dataset Preparation
 
-Prepare the dataset (e.g., KIT-ML or HumanML3D) in the following format: Download from authors work
+Prepare the dataset (e.g., KIT Motion-Language Dataset or HumanML3D) in the required format.
 
-```
-data/
-├── motions/
-├── texts/
-└── splits/
+Download the KIT Motion-Language Dataset from the authors’ official page:
+https://motion-annotation.humanoids.kit.edu/dataset/
+Download HumanML3D from the authors’ release page:
+https://github.com/EricGuo5513/HumanML3D
+Follow the preprocessing and structuring instructions provided in the respective repositories.
+dataset_root/
+│
+├── motions/                # Motion data (e.g., .npy, .npz, .bvh, .pkl)
+│   ├── motion_0001.npy
+│   ├── motion_0002.npy
+│   └── ...
+│
+├── texts/                  # Text annotations
+│   ├── motion_0001.txt
+│   ├── motion_0002.txt
+│   └── ...
+│
+├── train.txt               # Train split (motion IDs or indices)
+├── val.txt                 # Validation split
+├── test.txt                # Test split
+│
+└── metadata/ (optional)    # Additional info
+    ├── lengths.npy
+    ├── statistics.json
+    └── ...
 ```
 
 Ensure motion features and text annotations are properly aligned.
