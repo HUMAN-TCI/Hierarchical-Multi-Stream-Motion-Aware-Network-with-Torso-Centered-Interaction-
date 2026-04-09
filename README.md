@@ -1,5 +1,3 @@
-# Hierarchical-Multi-Stream-Motion-Aware-Network-with-Torso-Centered-Interaction
-
 # HUMAN-TCI: Hierarchical Multi-Stream Motion-Aware Network with Torso-Centered Interaction for Text-to-Motion Retrieval
 
 ## Overview
