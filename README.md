@@ -148,7 +148,7 @@ Metrics reported:
 </tr>
 </table>
 
-## 🎥 Qualitative Results (-B SMPL Based)
+## 🎥 Qualitative Results (B- SMPL Based)
 
 <table>
 <tr>
@@ -173,7 +173,7 @@ Metrics reported:
 <tr>
 <td align="center">
 <img src="render outputs/SMPL Video/209/009577_mesh.gif" width="260"/><br>
-<sub>a person puts his hands together in front of him then rests them on his side</sub>
+<sub>A person puts his hands together in front of him then rests them on his side</sub>
 </td>
 
 <td align="center">
@@ -190,7 +190,7 @@ Metrics reported:
 </tr>
 </table>
 
-## 🎥 Qualitative Results (-B SMPL Based)
+## 🎥 Qualitative Results (Full Frame ( Starting-Ending )
 
 <table>
 <tr>
