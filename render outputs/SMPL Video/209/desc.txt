@@ -1,0 +1,3 @@
+a person puts his hands together in front of him then rests them on his side
+query_index=210
+rank_info=2

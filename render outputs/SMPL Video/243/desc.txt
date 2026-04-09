@@ -1,0 +1,3 @@
+a person standing up throws something forward from above their head, then throws something again forward from above their head with more force which makes them take one step forward with their right foot.
+query_index=245
+rank_info=71

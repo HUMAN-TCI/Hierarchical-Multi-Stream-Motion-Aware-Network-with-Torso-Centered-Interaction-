@@ -1,0 +1,3 @@
+a person walks up to something, picks it up, brings it back to where they were, and begins to make a washing motion with their hand.
+query_index=22
+rank_info=0
