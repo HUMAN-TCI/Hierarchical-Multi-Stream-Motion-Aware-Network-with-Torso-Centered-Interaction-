@@ -1,0 +1,123 @@
+Great! Here's a ready-made pipeline script that:
+
+Loads your 3D joint sequence (.npy or .npz)
+
+Extracts one frame at a time
+
+Converts it into SMPLify-X format
+
+Calls SMPLify-X externally via subprocess
+
+Collects .obj output meshes per frame
+
+✅ Folder Structure (Expected)
+pgsql
+Copy
+Edit
+your_project/
+├── smplifyx/                      # cloned from https://github.com/vchoutas/smplify-x
+├── your_joint_data.npy            # your 3D joint sequence
+├── models/                        # SMPL-X models (downloaded separately)
+├── vposer/                        # VPoser model checkpoint
+├── smplifyx_runner.py            # ← you'll paste the script here
+├── output_meshes/                # SMPL-X outputs will go here
+🧠 smplifyx_runner.py
+python
+Copy
+Edit
+import os
+import numpy as np
+import subprocess
+from pathlib import Path
+
+# === CONFIGURATION ===
+JOINT_FILE = "your_joint_data.npy"   # or .npz with 'joints' key
+OUTPUT_FOLDER = "output_meshes"
+DATA_FOLDER = "temp_data"
+SMPLIFYX_DIR = "smplifyx"
+SMPL_MODEL_PATH = "models"
+VPOSER_PATH = "vposer"
+PART_SEGM = "smplifyx/data/smplx/parts_segm.pkl"
+CONFIG_FILE = "smplifyx/cfg_files/fit_smplx.yaml"
+GENDER = "neutral"
+
+# Create folders
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+os.makedirs(DATA_FOLDER, exist_ok=True)
+
+# === LOAD YOUR JOINT DATA ===
+data = np.load(JOINT_FILE)
+if isinstance(data, np.lib.npyio.NpzFile):
+    joints = data["joints"]
+else:
+    joints = data
+
+assert joints.ndim == 3  # (T, J, 3)
+joints = joints / 1000.0  # Convert mm to meters if needed
+
+print(f"Loaded joint data: {joints.shape}")
+
+# === PROCESS EACH FRAME ===
+for frame_idx in range(joints.shape[0]):
+    keypoints3d = joints[frame_idx:frame_idx+1]  # shape (1, J, 3)
+    npz_path = os.path.join(DATA_FOLDER, f"frame_{frame_idx:04d}.npz")
+    np.savez(npz_path, keypoints3d=keypoints3d, gender=[GENDER])
+    print(f"Saved {npz_path}")
+
+    # === CALL SMPLIFY-X FOR EACH FRAME ===
+    cmd = [
+        "python", f"{SMPLIFYX_DIR}/main.py",
+        "--config", CONFIG_FILE,
+        "--data_folder", DATA_FOLDER,
+        "--output_folder", OUTPUT_FOLDER,
+        "--visualize", "False",
+        "--model_folder", SMPL_MODEL_PATH,
+        "--vposer_ckpt", VPOSER_PATH,
+        "--part_segm_fn", PART_SEGM,
+        "--gender", GENDER,
+        "--ext", ".npz",
+        "--interactive", "False"
+    ]
+
+    print(f"Running SMPLify-X for frame {frame_idx}")
+    subprocess.run(cmd)
+
+    # Optionally clean up temp file
+    os.remove(npz_path)
+
+print("✅ All frames processed.")
+✅ Requirements
+Ensure these paths are correct:
+
+models/ contains SMPLX_NEUTRAL.npz etc.
+
+vposer/ contains the trained VPoser checkpoint (*.pt)
+
+smplifyx/ is cloned from the official repo
+
+Install SMPLify-X dependencies (conda install -c conda-forge chumpy, PyTorch3D, etc.)
+
+📦 Output
+Each frame’s result will go into:
+
+graphql
+Copy
+Edit
+output_meshes/
+└── frame_0000/
+    ├── meshes/
+    │   └── 000.obj   ← ← ← here’s your mesh!
+    ├── images/ (if --visualize=True)
+    └── results/
+💬 Optional Next Step
+If you'd like:
+
+To animate the .obj meshes in a viewer
+
+To batch-render the frames into a video
+
+Or to convert SMPL parameters into skeleton joints again
+
+I can assist with that too.
+
+Let me know if you'd like the mesh animation/visualizer part next!
