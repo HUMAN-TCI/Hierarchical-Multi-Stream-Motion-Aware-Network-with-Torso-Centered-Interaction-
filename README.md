@@ -50,13 +50,19 @@ pip install -r requirements.txt
 
 ## Dataset Preparation
 
-Prepare the dataset (e.g., KIT Motion-Language Dataset or HumanML3D) in the required format.
+Prepare the dataset (e.g., **KIT Motion-Language Dataset** or **HumanML3D**) in the required format.
 
-Download the KIT Motion-Language Dataset from the authors’ official page:
-https://motion-annotation.humanoids.kit.edu/dataset/
-Download HumanML3D from the authors’ release page:
-https://github.com/EricGuo5513/HumanML3D
-Follow the preprocessing and structuring instructions provided in the respective repositories.
+- Download the **KIT Motion-Language Dataset** from the authors’ official page:  
+  https://motion-annotation.humanoids.kit.edu/dataset/
+
+- Download **HumanML3D** from the authors’ release page:  
+  https://github.com/EricGuo5513/HumanML3D
+
+- Follow the preprocessing and structuring instructions provided in the respective repositories.
+  
+## Dataset Structure
+
+```
 dataset_root/
 │
 ├── motions/                # Motion data (e.g., .npy, .npz, .bvh, .pkl)
@@ -73,15 +79,14 @@ dataset_root/
 ├── val.txt                 # Validation split
 ├── test.txt                # Test split
 │
-└── metadata/ (optional)    # Additional info
+└── metadata/ (optional)    # Additional information
     ├── lengths.npy
     ├── statistics.json
-    └── ...
-```
+    └── ... 
 
 Ensure motion features and text annotations are properly aligned.
 
----
+```
 
 ## Training
 
@@ -89,7 +94,6 @@ To train the model:
 
 ```bash
 python train.py --config configs/train.yaml
-```
 
 Key options:
 - `text_model`: bert-lstm / clip
@@ -97,7 +101,7 @@ Key options:
 - `batch_size`, `learning_rate`, etc.
 
 ---
-
+```
 ## Inference / Evaluation
 
 To evaluate retrieval performance:
