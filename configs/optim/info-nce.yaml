@@ -1,0 +1,11 @@
+# @package optim
+
+defaults:
+  - default
+
+loss:
+  _target_: models.losses.InfoNCELoss
+  temperature: 0.07
+  max_logit_scale: 100
+  margin: 0.01   # small but useful
+

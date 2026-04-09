@@ -1,0 +1,64 @@
+# # 
+
+# # suggestion 
+
+# common: &common
+#   _target_: data_loaders.get_dataset_loader
+#   name: 'kit'
+#   num_frames: 40
+#   max_violation_after: 5   # (recommended improvement)
+
+# train:
+#   <<: *common
+#   split: 'train'
+#   hml_mode: 'train'
+
+# val:
+#   <<: *common
+#   split: 'val'
+#   hml_mode: 'eval'
+
+# test:
+#   <<: *common: &common
+#   _target_: data_loaders.get_dataset_loader
+#   name: 'kit'
+#   num_frames: 40
+#   max_violation_after: 5   # (recommended improvement)
+
+# train:
+#   <<: *common
+#   split: 'train'
+#   hml_mode: 'train'
+
+# val:
+#   <<: *common
+#   split: 'val'
+#   hml_mode: 'eval'
+
+# test:
+#   <<: *common
+#   split: 'test'
+#   hml_mode: 'eval'
+#   split: 'test'
+#   hml_mode: 'eval'
+
+common: &common
+  _target_: data_loaders.get_dataset_loader
+  name: 'kit'
+  num_frames: 40
+  max_violation_after: 5   # improved setting
+
+train:
+  <<: *common
+  split: 'train'
+  hml_mode: 'train'
+
+val:
+  <<: *common
+  split: 'val'
+  hml_mode: 'eval'
+
+test:
+  <<: *common
+  split: 'test'
+  hml_mode: 'eval'
