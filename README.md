@@ -190,45 +190,24 @@ Metrics reported:
 </tr>
 </table>
 
-## 🎥 Qualitative Results (Full Frame ( Starting-Ending )
+## 🎥 Qualitative Results (Full Frame: Start–End)
 
 <table>
 <tr>
+
+
 <td align="center">
-<video src="render outputs/SMPL Video/135/M001840_mesh.gif" autoplay loop muted width="260"></video><br>
-<sub>A man stands, brings both hands to his face, then steps out with his left foot and performs a low kick.</sub>
+<img src="render outputs/Skeleteon based results.png" width="500"/><br>
+<sub>Skeleton-based full-frame results (start to end).</sub>
 </td>
 
 <td align="center">
-<video src="render outputs/SMPL Video/155/M003897_mesh.gif" autoplay loop muted width="260"></video><br>
-<sub>A man gets on his knees, crawls from right to left, and then stands up again.</sub>
-</td>
-
-<td align="center">
-<video src="render outputs/SMPL Video/203/M005433_mesh.gif" autoplay loop muted width="260"></video><br>
-<sub>A person steps backward and sits down.</sub>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<video src="render outputs/SMPL Video/209/009577_mesh.gif" autoplay loop muted width="260"></video><br>
-<sub>A person brings their hands together in front, then lowers them to their sides.</sub>
-</td>
-
-<td align="center">
-<video src="render outputs/SMPL Video/22/004965_mesh.gif" autoplay loop muted width="260"></video><br>
-<sub>A person walks forward, picks something up, returns, and performs a washing motion.</sub>
-</td>
-
-<td align="center">
-<video src="render outputs/SMPL Video/243/009041.gif" autoplay loop muted width="260"></video><br>
-<sub>A person throws forward twice, stepping forward with the right foot on the second throw.</sub>
+<img src="render outputs/SMPL.png" width="500"/><br>
+<sub>SMPL-based full-frame results (start to end).</sub>
 </td>
 </tr>
 </table>
-
-**Note:** More results are available in the `render outputs/` directory.
+**Note:** More qualitative results, including videos, GIFs, and images, are available in the `render outputs/` directory.
 
 ## Outputs
 
