@@ -12,10 +12,10 @@ The system retrieves the most relevant motion sequence given a text query (and v
 ---
 
 ## Features
--Hierarchical multi-stream architecture modeling upper-body, lower-body, and torso interactions
--Explicit torso-aware modeling with cross-part dependency learning
--Handles complex, multi-action, and compositional text descriptions
--Strong and efficient performance on KIT Motion-Language Dataset and HumanML3D
+- Hierarchical multi-stream architecture modeling upper-body, lower-body, and torso interactions
+- Explicit torso-aware modeling with cross-part dependency learning
+- Handles complex, multi-action, and compositional text descriptions
+- Strong and efficient performance on KIT Motion-Language Dataset and HumanML3D
 
 ---
 
