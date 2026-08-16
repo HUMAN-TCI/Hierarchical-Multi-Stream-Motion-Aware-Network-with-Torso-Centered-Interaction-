@@ -223,9 +223,10 @@ Comparison on the KIT-ML and HumanML3D datasets. Higher R@K values are better, w
 
 ## 🎥 Qualitative Results (Full Frame: Start–End)
 
+## 🎥 Qualitative Results (Full Frame: Start–End)
+
 <table>
 <tr>
-
 
 <td align="center">
 <img src="render outputs/Skeleteon based results.png" width="500"/><br>
@@ -236,6 +237,23 @@ Comparison on the KIT-ML and HumanML3D datasets. Higher R@K values are better, w
 <img src="render outputs/SMPL.png" width="500"/><br>
 <sub>SMPL-based full-frame results (start to end).</sub>
 </td>
+
+</tr>
+
+<tr>
+
+<td align="center">
+ <img width="2160" height="1680" alt="attention_q22 (1)" src="https://github.com/user-attachments/assets/c42729bb-e395-469a-9010-da3e3d9e0b7e" />
+ 
+<sub>Additional Interpretability results 1 (start to end).</sub>
+</td>
+
+<td align="center">
+  <img width="2419" height="1586" alt="combined_attention_grid" src="https://github.com/user-attachments/assets/3beb72ea-287b-4522-aa24-a88cc2ec602f" />
+
+<sub>Additional Interpretability results 2 (start to end).</sub>
+</td>
+
 </tr>
 </table>
 **Note:** More qualitative results, including videos, GIFs, and images, are available in the `render outputs/` directory.
