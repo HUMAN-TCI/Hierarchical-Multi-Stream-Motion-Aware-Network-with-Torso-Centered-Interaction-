@@ -1,9 +1,0 @@
-# @package text_model
-
-name: BERTSentenceEncoderLSTM
-module:
-  _target_: models.texts.BERTSentenceEncoderLSTM
-  hidden_size: 256
-  lstm_layers: 2
-  # hidden_size: 128
-  # lstm_layers: 1.
