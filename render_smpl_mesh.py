@@ -3478,7 +3478,7 @@ def main():
             "save_dir":  "outputs/renders_smpl/test/22",
             "gif_name":  "004965_mesh.gif",
             "fig_name":  "004965_ghost.png",
-            "caption":   "a person walks up to something, picks it up, brings it back to where they were, and begins to make a washing motion with their hand..",
+            "caption":   "a person walks up to something, picks it up, brings it back to where they were, and begins to make a washing motion with their hand.",
             "n_keys":    8,
             "spread_x":  0.42,
             "spread_z":  0.28,
