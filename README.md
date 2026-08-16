@@ -1,310 +1,149 @@
-# HUMAN-TCI: Hierarchical Multi-Stream Motion-Aware Network with Torso-Centered Interaction for Text-to-Motion Retrieval
+# Text to Motion Retrieval
 
 ## Overview
-HUMAN-TCI is a text-to-motion retrieval framework that learns a joint embedding space between natural language descriptions and human motion sequences. The model integrates:
+This is the official code for reproducing results obtained in the short paper [Text-to-Motion Retrieval: Towards Joint Understanding of Human Motion Data and Natural Language](https://dl.acm.org/doi/abs/10.1145/3539618.3592069).
 
-- **Text Encoders**: BERT-LSTM and CLIP (for rich semantic understanding)
-- **Motion Encoder**: Hierarchical Multi-Stream GRU (capturing body-part level dynamics)
-- **Interaction Mechanism**: Torso-Centered Interaction (TCI) for improved spatial-temporal alignment
+:fire: This paper won the [Best Short Paper Award Honorable Mention](https://sigir.org/sigir2023/program/best-paper-award/) at [SIGIR 2023](https://sigir.org/sigir2023/).
 
-The system retrieves the most relevant motion sequence given a text query (and vice versa).
+This repository is intended to be a codebase - easy to expand with novel motion encoders, text encoders, and loss functions - to develop novel approaches for text-to-motion (and motion-to-text) retrieval.
 
----
+<table>
+  <tr>
+    <td><i>"A person walks in a counterclockwise circle"</i></td>
+    <td><img src="teaser/example_74.gif" alt="A person walks in a counterclockwise circle" width=100%></td>
+   </tr>
+   <tr>
+      <td><i>"A person is kneeling down on all four legs and begins to crawl"</i></td>
+      <td><img src="teaser/example_243.gif" alt="A person is kneeling down on all four legs and begins to crawl" width=100%></td>
+  </tr>
+</table>
 
-## Features
-- Hierarchical multi-stream architecture modeling upper-body, lower-body, and torso interactions
-- Explicit torso-aware modeling with cross-part dependency learning
-- Handles complex, multi-action, and compositional text descriptions
-- Strong and efficient performance on KIT Motion-Language Dataset and HumanML3D
+## Performance
 
----
+* HumanML3D
 
-## Project Structure
+| Text Model    | Motion Model   | R@1  | R@5  | R@10  | meanr | medr | SPICE | spaCy |
+|---------------|----------------|------|------|------|------|-----|-------|-------|
+| BERT+LSTM     | BiGRU          | 2.9 | 11.8 | 19.8 | 253.9| 55  | 0.250 | 0.768 |
+| BERT+LSTM     | UpperLowerGRU  | 2.4 | 10.5 | 17.7 | 285.7| 68  | 0.242 | 0.763 |
+| BERT+LSTM     | DG-STGCN       | 2.0 | 8.4  | 14.4 | 242.0| 73  | 0.231 | 0.767 |
+| BERT+LSTM     | MoT (our)      | 2.5 | 11.2 | 19.4 | 234.5| 51  | 0.247 | 0.768 |
+| CLIP          | BiGRU          | 3.4 | 14.3 | 23.1 | 201.9| 43  | 0.272 | 0.780 |
+| CLIP          | UpperLowerGRU  | 3.1 | 12.6 | 20.8 | 200.4| 47  | 0.269 | 0.779 |
+| CLIP          | DG-STGCN       | 4.1 | 16.0 | 26.5 | 159.6| 33  | 0.291 | 0.789 |
+| CLIP          | MoT (our)      | 3.5 | 14.8 | 24.5 | 166.2| 38  | 0.280 | 0.785 |
+
+* KIT ML
+
+| Text Model    | Motion Model   | R@1  | R@5   | R@10  | mean | med | SPICE | spaCy |
+|---------------|----------------|-----|------|------|------|-----|-------|-------|
+| BERT+LSTM     | BiGRU          | 3.7 | 15.2 | 23.8 | 72.3 | 30  | 0.271 | 0.706 |
+| BERT+LSTM     | UpperLowerGRU  | 3.2 | 15.7 | 25.3 | 90.2 | 34  | 0.263 | 0.697 |
+| BERT+LSTM     | DG-STGCN       | 6.2 | 24.5 | 38.2 | 40.6 | 17  | 0.339 | 0.740 |
+| BERT+LSTM     | MoT (our)      | 5.3 | 21.3 | 32.0 | 51.1 | 20  | 0.318 | 0.723 |
+| CLIP          | BiGRU          | 6.6 | 21.5 | 32.3 | 52.0 | 22  | 0.316 | 0.729 |
+| CLIP          | UpperLowerGRU  | 6.4 | 22.0 | 32.2 | 52.3 | 22  | 0.321 | 0.732 |
+| CLIP          | DG-STGCN       | 7.2 | 26.1 | 38.2 | 36.9 | 16  | 0.355 | 0.751 |
+| CLIP          | MoT (our)      | 6.5 | 26.4 | 42.6 | 35.5 | 14  | 0.352 | 0.748 |
+
+
+## Getting started
+
+This code was tested on `Ubuntu 18.04 LTS` and requires:
+
+* Python 3.10
+* Conda
+* CUDA capable GPU (one is enough)
+
+### 1. Setup environment
+
+Clone this repo and move into it:
 ```
-├── train.py                # Training script
-├── inference.py            # Retrieval / evaluation script
-├── render.py               # Visualization script
-├── models/                 # Model architectures (text + motion encoders)
-├── utils/                  # Helper functions (metrics, preprocessing, etc.)
-├── data/                   # Dataset directory
-├── checkpoints/            # Saved model weights
-├── outputs/                # Retrieved results and videos
-└── README.md
+git clone https://github.com/mesnico/text-to-motion-retrieval
+cd text-to-motion-retrieval
 ```
 
----
+Create a new conda environment and activate it:
+```
+conda create -n t2m python=3.10
+conda activate t2m
+```
 
-## Installation
-
-### Requirements
-- Python 3.8+
-- PyTorch (tested on 1.12.0+cu102)
-- CUDA (optional, for GPU acceleration)
-
-### Install dependencies
-```bash
+Install dependencies:
+```
 pip install -r requirements.txt
 ```
 
----
+### 2. Data preparation
 
-## Dataset Preparation
-
-Prepare the dataset (e.g., **KIT Motion-Language Dataset** or **HumanML3D**) in the required format.
-
-- Download the **KIT Motion-Language Dataset** from the authors’ official page:  
-  https://motion-annotation.humanoids.kit.edu/dataset/
-
-- Download **HumanML3D** from the authors’ release page:  
-  https://github.com/EricGuo5513/HumanML3D
-
-- Follow the preprocessing and structuring instructions provided in the respective repositories.
-  
-## Dataset Structure
+**HumanML3D** - Follow the instructions in [HumanML3D](https://github.com/EricGuo5513/HumanML3D.git),
+then copy the result dataset to this repository:
 
 ```
-dataset_root/
-│
-├── motions/                # Motion data (e.g., .npy, .npz, .bvh, .pkl)
-│   ├── motion_0001.npy
-│   ├── motion_0002.npy
-│   └── ...
-│
-├── texts/                  # Text annotations
-│   ├── motion_0001.txt
-│   ├── motion_0002.txt
-│   └── ...
-│
-├── train.txt               # Train split (motion IDs or indices)
-├── val.txt                 # Validation split
-├── test.txt                # Test split
-│
-└── metadata/ (optional)    # Additional information
-    ├── lengths.npy
-    ├── statistics.json
-    └── ... 
-
-Ensure motion features and text annotations are properly aligned.
-
+cp -r ../HumanML3D/HumanML3D ./dataset/HumanML3D
 ```
 
-## Training
+**KIT** - Download from [HumanML3D](https://github.com/EricGuo5513/HumanML3D.git) (no processing needed this time) and the place result in `./dataset/KIT-ML`
 
-To train the model:
-
-```bash
-python train.py --config configs/train.yaml
-
-Key options:
-- `text_model`: bert-lstm / clip
-- `motion_model`: multi-stream-gru
-- `batch_size`, `learning_rate`, etc.
-
----
+**Compute Text Similarities** - This is needed to pre-compute the relevances for NDCG metric to use during validation and testing.
+<!-- You have to download the precomputed text similarities from ... and place them under `outputs/computed_relevances`. -->
+You can compute them by running the following command:
 ```
-## Inference / Evaluation
-
-To evaluate retrieval performance:
-
-```bash
-python inference.py --checkpoint checkpoints/model.pth --split test
+python text_similarity_utils/compute_relevance --set [val|test] --method spacy --dataset [kit|humanml]
 ```
+*Note 1*: with respect to the paper, here we compute only the spacy relevance, given that the spice is slow and hard to calculate.
 
-Metrics reported:
-- R@1, R@5, R@10
-- Median Rank (MedR)
-- Mean Rank (MeanR)
-- NDCG - Spacy, Spice
+*Note 2*: to avoid errors, you should compute similarities using all the 4 configurations of parameters, by invoking the command using all the combinations of sets (val and test), and datasets (kit and humanml).
 
----
-## 🎥 Results
+### 3. Train
 
-### Comparison with State-of-the-Art Methods
-
-Comparison on the KIT-ML and HumanML3D datasets. Higher R@K values are better, while lower MedR values are better. **Bold** indicates the best performance in each column.
-
-| Method | Pub. Year | KIT-ML R@1 ↑ | KIT-ML R@5 ↑ | KIT-ML R@10 ↑ | KIT-ML MedR ↓ | HumanML3D R@1 ↑ | HumanML3D R@5 ↑ | HumanML3D R@10 ↑ | HumanML3D MedR ↓ |
-|:---|:---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| T2M | CVPR'22 | 3.37 | 16.87 | 27.71 | 28 | 1.80 | 7.12 | 12.47 | 81 |
-| MotionCLIP | ECCV'22 | 4.87 | 20.09 | 31.57 | 26 | 2.33 | 12.77 | 18.14 | 103 |
-| TEMOS | ECCV'22 | 7.11 | 24.10 | 35.66 | 24 | 2.12 | 8.26 | 13.52 | 173 |
-| MoT | SIGIR'23 | 6.23 | 23.92 | 37.15 | 20 | 2.61 | 10.66 | 17.79 | 60 |
-| TMR | ICCV'23 | 7.23 | 28.31 | 40.12 | 17 | 5.68 | 20.34 | 30.94 | 28 |
-| HSA | SIGIR'24 | 9.29 | 29.01 | 40.97 | 16 | 7.14 | 24.02 | 34.67 | 24 |
-| MGSI | MM'24 | 8.91 | 29.64 | 40.84 | 16 | 6.61 | 23.91 | 34.74 | 24 |
-| Messi-B | SIGIR'23 | 3.20 | 15.70 | 25.30 | 34 | 2.40 | 10.50 | 17.70 | 68 |
-| DTL | MM'23 | 6.77 | 23.18 | 37.24 | 18 | 2.30 | 10.06 | 16.40 | 76 |
-| RetNet | PatR'26 | 9.59 | 30.56 | 43.07 | 15 | 7.61 | 25.65 | 35.04 | 24 |
-| **HUMAN-TCI (Ours)** | **--** | 9.20 | **36.31** | **56.46** | **9** | **8.21** | **30.17** | **47.87** | **11** |
-
-**Note:** ↑ indicates that higher values are better, while ↓ indicates that lower values are better. Bold indicates the best performance in each column.
-
-## 🎥 Qualitative Results (A- Skeleton Based)
-
-<table>
-<tr>
-<td align="center">
-<img src="render outputs/Skeleteon/128/0_M011988.npy.gif" width="260"/><br>
-<sub>A person bows forward to their waist somewhat slowly</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/Skeleteon/113/0_005139.npy.gif" width="260"/><br>
-<sub>A person is standing with arms out, then sits and rests hands on knees</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/Skeleteon/129/0_M010456.npy.gif" width="260"/><br>
-<sub>A person is dancing the waltz counter-clockwise with the left arm out</sub>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<img src="render outputs/Skeleteon/56/0_M001952.npy.gif" width="260"/><br>
-<sub>A person walks in a counterclockwise circle</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/Skeleteon/70/0_001781.npy.gif" width="260"/><br>
-<sub>A person does squats with raised hands, lifting them overhead when standing</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/Skeleteon/79/0_M007514.npy.gif" width="260"/><br>
-<sub> The person is waving with their left arm.</sub>
-</td>
-
-<td></td>
-</tr>
-</table>
-
-## 🎥 Qualitative Results (B- SMPL Based)
-
-<table>
-<tr>
-<td align="center">
-<img src="render outputs/SMPL Video/135/M001840_mesh.gif" width="260"/><br>
-<sub>A man is standing and brings both hands to his face then steps out with left foot and performs a low kick.
-</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/SMPL Video/155/M003897_mesh.gif" width="260"/><br>
-<sub>A man gets on his knees and crawls from right to left, then stands up again.
-</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/SMPL Video/203/M005433_mesh.gif" width="260"/><br>
-<sub>A person backed up and sat down</sub>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<img src="render outputs/SMPL Video/209/009577_mesh.gif" width="260"/><br>
-<sub>A person puts his hands together in front of him then rests them on his side</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/SMPL Video/22/004965_mesh.gif" width="260"/><br>
-<sub> A person walks up to something, picks it up, brings it back to where they were, and begins to make a washing motion with their hand.</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/SMPL Video/243/009041.gif" width="260"/><br>
-<sub> A person standing up throws something forward from above their head, then throws something again forward from above their head with more force which makes them take one step forward with their right foot.</sub>
-</td>
-
-<td></td>
-</tr>
-</table>
-
-## 🎥 Qualitative Results (Full Frame: Start–End)
-
-<table>
-<tr>
-
-<td align="center">
-<img src="render outputs/Skeleteon based results.png" width="500"/><br>
-<sub>Skeleton-based full-frame results (start to end).</sub>
-</td>
-
-<td align="center">
-<img src="render outputs/SMPL.png" width="500"/><br>
-<sub>SMPL-based full-frame results (start to end).</sub>
-</td>
-
-</tr>
-
-<tr>
-
-<td align="center">
- <img width="2160" height="1680" alt="attention_q22 (1)" src="https://github.com/user-attachments/assets/c42729bb-e395-469a-9010-da3e3d9e0b7e" />
- 
-<sub>Additional Interpretability results 1 (start to end).</sub>
-</td>
-
-<td align="center">
-  <img width="2419" height="1586" alt="combined_attention_grid" src="https://github.com/user-attachments/assets/3beb72ea-287b-4522-aa24-a88cc2ec602f" />
-
-<sub>Additional Interpretability results 2 (start to end).</sub>
-</td>
-
-</tr>
-</table>
-**Note:** More qualitative results, including videos, GIFs, and images, are available in the `render outputs/` directory.
-
-## Outputs
-
-The system produces:
-- Retrieval rankings
-- Quantitative evaluation metrics
-- Visualization videos of motion sequences
-
----
-
-## Supplementary Material
-
-The repository includes:
-- Full training and inference code
-- Pretrained model checkpoints (if provided)
-- Visualization scripts
-- Output videos demonstrating retrieval performance
-
----
-
-## Citation
-
-If you find this work useful, please cite:
-
+Run the command
 ```
-@article{human_tci,
-  title={HUMAN-TCI: Hierarchical Multi-Stream Motion-Aware Network with Torso-Centered Interaction for Text-to-Motion Retrieval},
-  author={Anonymous Author(s) },
-  year={2026}
-}
+bash reproduce_train.sh
 ```
+Modify che code appropriately for including/excluding models or loss functions.
+This code will create a folder `./runs` where checkpoints and training metrics (tensorboard logs) are stored for each model.
 
----
+### 4. Test
 
+Run the command
+```
+bash reproduce_eval.sh
+```
+Modify che code appropriately following the models and loss functions included in `reproduce_train.sh`. Non-existing configurations will be skipped.
 
+### 5. Result tables
+
+Open the `show.ipynb` notebook to produce the tables shown in the paper. 
+
+*NOTE: This is still WIP so there may be some runtime errors unless some changes are made to the code*
+
+### 6. Visualize retrieval results
+
+Run the command
+```
+bash render.sh
+```
+Modify che code appropriately to employ a specific model and specific query ids.
+The resulting videos are placed in the folder `outputs/renders`.
+
+## Implementation Details
+
+This repo is fully modular and based on the [Hydra](https://hydra.cc/docs/intro/) framework. For this reason, it is also quite easy to extend our text-to-motion framework to handle custom motion encoders, text encoders, and different loss functions.
+
+The `config` folder is the root configuration path for Hydra.
+
+To add another motion-encoder, text-encoder, or loss-function, you need:
+1. To write the pytorch code placing it inside the appropriate `losses`, `motions`, `texts` folder
+2. Expose your class as a module in the `__init__.py` file
+3. Write a `.yaml` configuration file , making sure that `module._target_` points to that class
+4. Update the `reproduce_train.sh` and `reproduce_eval.sh` files to include the novel configuration (without `.yaml` extension) to the pool of experiments
 
 ## Acknowledgements
 
-This work builds upon prior research in text-to-motion retrieval, multimodal learning, and human motion modeling.
+This repo is largely based on the [Motion Diffusion Model (MDM)](https://github.com/GuyTevet/motion-diffusion-model) repository. We are grateful to its authors.
 
-Our implementation is largely based on the following works, and we sincerely thank the authors for making their codebases publicly available:
+## License
+This code is distributed under an [MIT LICENSE](LICENSE).
 
-MDM: Human Motion Diffusion Model
-https://github.com/GuyTevet/motion-diffusion-model
-
-TMR: Text-to-Motion Retrieval Using Contrastive 3D Human Motion Synthesis
-https://mathis.petrovich.fr/tmr/
-
-Text-to-Motion Retrieval: Towards Joint Understanding of Human Motion Data and Natural Language.
-https://github.com/mesnico/text-to-motion-retrieval
-
-Their contributions have been instrumental in advancing research in this domain and have significantly supported the development of this project.
-
+Note that our code depends on other libraries, including TERN, TERAN, CLIP, SMPL, SMPL-X, and uses datasets that each have their own respective licenses that must also be followed.
