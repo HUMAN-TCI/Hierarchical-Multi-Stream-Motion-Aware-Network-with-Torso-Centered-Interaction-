@@ -223,8 +223,6 @@ Comparison on the KIT-ML and HumanML3D datasets. Higher R@K values are better, w
 
 ## 🎥 Qualitative Results (Full Frame: Start–End)
 
-## 🎥 Qualitative Results (Full Frame: Start–End)
-
 <table>
 <tr>
 
