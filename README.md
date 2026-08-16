@@ -119,18 +119,25 @@ Metrics reported:
 ---
 ## 🎥 Results
 
-### Comparison with State-of-the-Art Methods on KIT-ML and HumanML3D
+### Comparison with State-of-the-Art Methods
 
-| Method | Pub' Year | KIT-ML R@1 ↑ | R@5 ↑ | R@10 ↑ | MedR ↓ | HumanML3D R@1 ↑ | R@5 ↑ | R@10 ↑ | MedR ↓ |
-|--------|----------|--------------|------|--------|--------|------------------|------|--------|--------|
+Comparison on the KIT-ML and HumanML3D datasets. Higher R@K values are better, while lower MedR values are better. **Bold** indicates the best performance in each column.
+
+| Method | Pub. Year | KIT-ML R@1 ↑ | KIT-ML R@5 ↑ | KIT-ML R@10 ↑ | KIT-ML MedR ↓ | HumanML3D R@1 ↑ | HumanML3D R@5 ↑ | HumanML3D R@10 ↑ | HumanML3D MedR ↓ |
+|:---|:---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | T2M | CVPR'22 | 3.37 | 16.87 | 27.71 | 28 | 1.80 | 7.12 | 12.47 | 81 |
 | MotionCLIP | ECCV'22 | 4.87 | 20.09 | 31.57 | 26 | 2.33 | 12.77 | 18.14 | 103 |
-| TEMOS | ECCV'22 | **7.11** | 24.10 | 35.66 | 24 | 2.12 | 8.26 | 13.52 | 173 |
+| TEMOS | ECCV'22 | 7.11 | 24.10 | 35.66 | 24 | 2.12 | 8.26 | 13.52 | 173 |
 | MoT | SIGIR'23 | 6.23 | 23.92 | 37.15 | 20 | 2.61 | 10.66 | 17.79 | 60 |
-| TMR | ICCV'23 | _**7.23**_ | _**28.31**_ | **40.12** | **17** | _**5.68**_ | **20.34** | **30.94** | _**28**_ |
+| TMR | ICCV'23 | 7.23 | 28.31 | 40.12 | 17 | 5.68 | 20.34 | 30.94 | 28 |
+| HSA | SIGIR'24 | 9.29 | 29.01 | 40.97 | 16 | 7.14 | 24.02 | 34.67 | 24 |
+| MGSI | MM'24 | 8.91 | 29.64 | 40.84 | 16 | 6.61 | 23.91 | 34.74 | 24 |
 | Messi-B | SIGIR'23 | 3.20 | 15.70 | 25.30 | 34 | 2.40 | 10.50 | 17.70 | 68 |
-| DTL | MM'24 | 6.77 | 23.18 | 37.24 | 18 | 2.30 | 10.06 | 16.40 | 76 |
-| **HUMAN-TCI (Ours)** | -- | 6.82 | **26.53** | _**41.26**_ | _**16**_ | **4.82** | _**22.10**_ | _**33.54**_ | **37** |
+| DTL | MM'23 | 6.77 | 23.18 | 37.24 | 18 | 2.30 | 10.06 | 16.40 | 76 |
+| RetNet | PatR'26 | 9.59 | 30.56 | 43.07 | 15 | 7.61 | 25.65 | 35.04 | 24 |
+| **HUMAN-TCI (Ours)** | **--** | 9.20 | **36.31** | **56.46** | **9** | **8.21** | **30.17** | **47.87** | **11** |
+
+**Note:** ↑ indicates that higher values are better, while ↓ indicates that lower values are better. Bold indicates the best performance in each column.
 
 ## 🎥 Qualitative Results (A- Skeleton Based)
 
