@@ -1,0 +1,9 @@
+# @package motion_model
+
+name: UpperLowerGRU
+module:
+  _target_: models.motions.UpperLowerGRU
+  h1: 64
+  h2: 256
+  h3: 256
+  
