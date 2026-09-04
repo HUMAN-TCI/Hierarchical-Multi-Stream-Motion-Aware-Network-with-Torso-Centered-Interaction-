@@ -135,7 +135,7 @@ Comparison on the KIT-ML and HumanML3D datasets. Higher R@K values are better, w
 | Messi-B | SIGIR'23 | 3.20 | 15.70 | 25.30 | 34 | 2.40 | 10.50 | 17.70 | 68 |
 | DTL | MM'23 | 6.77 | 23.18 | 37.24 | 18 | 2.30 | 10.06 | 16.40 | 76 |
 | RetNet | PatR'26 | 9.59 | 30.56 | 43.07 | 15 | 7.61 | 25.65 | 35.04 | 24 |
-| **HUMAN-TCI (Ours)** | **--** | 9.96 | **32.31** | **47.07** | **13** | **8.21** | **27.17** | **38.87** | **16** |
+| **HUMAN-TCI (Ours)** | **--** | **9.96** | **32.31** | **47.07** | **13** | **8.21** | **27.17** | **38.87** | **16** |
 
 **Note:** ↑ indicates that higher values are better, while ↓ indicates that lower values are better. Bold indicates the best performance in each column.
 
